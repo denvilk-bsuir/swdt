@@ -23,8 +23,8 @@ class Achievment(models.Model):
     creator = models.ForeignKey(Profile, null=True, blank=True, on_delete=models.SET_NULL)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
- 
-   
+
+
 class UserAchievments(models.Model):
     achievment = models.ForeignKey(Achievment, on_delete=models.CASCADE)
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
@@ -61,14 +61,14 @@ class AnswerOption(models.Model):
     text = models.CharField(max_length=300)
 
 
-class Compiller(models.Model):
+class Compiler(models.Model):
     name = models.CharField(max_length=30)
     extension = models.CharField(max_length=30)
 
 
 class AnswerCode(models.Model):
     code = models.CharField(max_length=30)
-    compiler = models.ForeignKey(Compiller, on_delete=models.CASCADE)
+    compiler = models.ForeignKey(Compiler, on_delete=models.CASCADE)
 
 
 class Answer(models.Model):
@@ -89,14 +89,14 @@ class ContestType(models.Model):
 
 
 class Contest(models.Model):
-    author = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    author = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='authored_contests')
     start_time = models.DateTimeField()
     duration = models.DurationField()
     name = models.CharField(max_length=100)
     tasks = models.ManyToManyField(Task, through='TaskOnContest')
     categories = models.ManyToManyField(Category, through='CategoryOnContest')
-    compillers = models.ManyToManyField(Compiller, through='CompillerOncontest')
-    users = models.ManyToManyField(Profile, through='UserToContest')
+    compilers = models.ManyToManyField(Compiler, through='CompilerOncontest')
+    users = models.ManyToManyField(Profile, through='UserToContest', related_name='contests')
 
 
 class TaskOnContest(models.Model):
@@ -110,9 +110,9 @@ class CategoryOnContest(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
 
-class CompillerOncontest(models.Model):
+class CompilerOncontest(models.Model):
     contest = models.ForeignKey(Contest, on_delete=models.CASCADE)
-    compiller = models.ForeignKey(Compiller, on_delete=models.CASCADE)
+    compiler = models.ForeignKey(Compiler, on_delete=models.CASCADE)
 
 
 class ContestRole(models.Model):
@@ -122,4 +122,4 @@ class ContestRole(models.Model):
 class UserToContest(models.Model):
     contest = models.ForeignKey(Contest, on_delete=models.CASCADE)
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    role = models.ForeignKey(ContestRole, null=True, on_delete=models.NU)
+    role = models.ForeignKey(ContestRole, null=True, on_delete=models.SET_NULL)
