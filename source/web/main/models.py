@@ -20,14 +20,14 @@ class Profile(models.Model):
 
 class Achievment(models.Model):
     name = models.CharField(max_length=60)
-    creator = models.ForeignKey(Profile)
+    creator = models.ForeignKey(Profile, null=True, blank=True, on_delete=models.SET_NULL)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
  
    
 class UserAchievments(models.Model):
-    achievment_id = models.ForeignKey(Achievment)
-    user_id = models.ForeignKey(Profile)
+    achievment = models.ForeignKey(Achievment, on_delete=models.CASCADE)
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -38,7 +38,7 @@ class TaskType(models.Model):
 
 
 class Task(models.Model):
-    task_type_id = models.ForeignKey(TaskType)
+    task_type = models.ForeignKey(TaskType, null=True, on_delete=models.SET_NULL)
     statement = models.CharField(max_length=400)
     input = models.CharField(max_length=400, null=True, blank=True)
     output = models.CharField(max_length=400, null=True, blank=True)
@@ -46,7 +46,7 @@ class Task(models.Model):
 
 
 class Test(models.Model):
-    task_id = models.ForeignKey(Task)
+    task = models.ForeignKey(Task, on_delete=models.CASCADE)
     test_input = models.TextField(null=True, blank=True)
     test_output = models.TextField()
 
@@ -57,7 +57,7 @@ class Verdict(models.Model):
 
 
 class AnswerOption(models.Model):
-    task_id = models.ForeignKey(Task)
+    task = models.ForeignKey(Task, on_delete=models.CASCADE)
     text = models.CharField(max_length=300)
 
 
@@ -68,14 +68,14 @@ class Compiller(models.Model):
 
 class AnswerCode(models.Model):
     code = models.CharField(max_length=30)
-    compiler = models.ForeignKey(Compiller)
+    compiler = models.ForeignKey(Compiller, on_delete=models.CASCADE)
 
 
 class Answer(models.Model):
-    task_id = models.ForeignKey(Task)
-    answer_option = models.ForeignKey(AnswerOption,null=True, blank=True)
-    answer_code = models.ForeignKey(AnswerCode,null=True, blank=True)
-    verdict_id = models.ForeignKey(Verdict)
+    task = models.ForeignKey(Task, on_delete=models.CASCADE)
+    answer_option = models.ForeignKey(AnswerOption,null=True, blank=True, on_delete=models.SET_NULL)
+    answer_code = models.ForeignKey(AnswerCode,null=True, blank=True, on_delete=models.SET_NULL)
+    verdict = models.ForeignKey(Verdict,null=True, on_delete=models.SET_NULL)
     penalty = models.IntegerField()
 
 
@@ -89,7 +89,7 @@ class ContestType(models.Model):
 
 
 class Contest(models.Model):
-    author = models.ForeignKey(Profile)
+    author = models.ForeignKey(Profile, on_delete=models.CASCADE)
     start_time = models.DateTimeField()
     duration = models.DurationField()
     name = models.CharField(max_length=100)
@@ -101,18 +101,18 @@ class Contest(models.Model):
 
 class TaskOnContest(models.Model):
     order = models.IntegerField()
-    contest_id = models.ForeignKey(Contest)
-    task_id = models.ForeignKey(Task)
+    contest = models.ForeignKey(Contest, on_delete=models.CASCADE)
+    task = models.ForeignKey(Task, on_delete=models.CASCADE)
 
 
 class CategoryOnContest(models.Model):
-    contest_id = models.ForeignKey(Contest)
-    category_id = models.ForeignKey(Category)
+    contest = models.ForeignKey(Contest, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
 
 class CompillerOncontest(models.Model):
-    contest_id = models.ForeignKey(Contest)
-    compiller_id = models.ForeignKey(Compiller)
+    contest = models.ForeignKey(Contest, on_delete=models.CASCADE)
+    compiller = models.ForeignKey(Compiller, on_delete=models.CASCADE)
 
 
 class ContestRole(models.Model):
@@ -120,6 +120,6 @@ class ContestRole(models.Model):
 
 
 class UserToContest(models.Model):
-    contest_id = models.ForeignKey(Contest)
-    user_id = models.ForeignKey(Profile)
-    role_id = models.ForeignKey(ContestRole)
+    contest = models.ForeignKey(Contest, on_delete=models.CASCADE)
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    role = models.ForeignKey(ContestRole, null=True, on_delete=models.NU)
