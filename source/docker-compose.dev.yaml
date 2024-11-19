@@ -5,15 +5,3 @@ services:
       - "8000:8000"
     volumes:
       - ./web/:/app/
-  postgres:
-    image: postgres
-    ports:
-      - "6401:5432"
-    environment:
-      POSTGRES_PASSWORD: "postgres"
-      PGDATA: "/data/postgres"
-    volumes:
-      - pg-data:/data/postgres
-
-volumes:
-  pg-data:
