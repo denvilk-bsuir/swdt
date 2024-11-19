@@ -1,8 +1,16 @@
 from django.db import models
+from django.dispatch import receiver
 from django.contrib.auth import get_user_model
+from django.db.models.signals import post_save
 
 
 User = get_user_model()
+
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
 
 
 class Profile(models.Model):
@@ -12,7 +20,7 @@ class Profile(models.Model):
     last_name = models.CharField(max_length=60)
     country = models.CharField(max_length=40)
     email = models.CharField(max_length=80)
-    raiting = models.IntegerField()
+    raiting = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     achievments = models.ManyToManyField('Achievment', through='UserAchievments')
