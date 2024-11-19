@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-18 18:54+0300\n"
+"POT-Creation-Date: 2024-11-19 23:57+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,22 +17,61 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: config/settings.py:126
+#: config/settings.py:128
 msgid "English"
 msgstr "Английский"
 
-#: config/settings.py:127
+#: config/settings.py:129
 msgid "Russian"
 msgstr "Русский"
+
+#: main/forms.py:21
+msgid "UsernameField"
+msgstr "Имя пользователя"
+
+#: main/forms.py:22
+msgid "PasswordField"
+msgstr "Пароль"
+
+#: main/forms.py:23
+msgid "PasswordConfirmField"
+msgstr "Потверждение пароля"
+
+#: main/forms.py:24
+msgid "FirstnameField"
+msgstr "Имя"
+
+#: main/forms.py:25
+msgid "MiddlenameField"
+msgstr "Отчество"
+
+#: main/forms.py:26
+msgid "LastnameField"
+msgstr "Фамилия"
+
+#: main/forms.py:27
+msgid "CountryField"
+msgstr "Страна"
+
+#: main/forms.py:28
+msgid "EmailField"
+msgstr "Электронная почта"
 
 #: templates/includes/header.html:4
 msgid "SysName"
 msgstr "Тестирующая Система"
 
-#: templates/includes/header.html:19
+#: templates/includes/header.html:19 templates/main/index.html:5
 msgid "HomePageName"
 msgstr "Главная"
 
-#: templates/main/index.html:9
-msgid "HelloWorld"
-msgstr "Привет Мир!"
+#: templates/main/users/signup.html:5 templates/main/users/signup.html:11
+msgid "SignUpPageName"
+msgstr "Регистрация"
+
+#: templates/main/users/signup.html:15
+msgid "SignUpButton"
+msgstr "Зарегистрироваться"
+
+#~ msgid "HelloWorld"
+#~ msgstr "Привет Мир!"
