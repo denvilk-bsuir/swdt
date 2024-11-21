@@ -38,9 +38,14 @@ class Profile(BaseModel):
     def fullname(self):
         return f"{self.last_name} {self.first_name} {self.middle_name}"
 
+
 class Achievment(BaseModel):
     name = models.CharField(max_length=60)
     creator = models.ForeignKey(Profile, null=True, blank=True, on_delete=models.SET_NULL)
+
+    @property
+    def get_created_at(self):
+        return self.created_at
 
     def __str__(self):
         return f"#{self.id} {self.name}"
@@ -49,6 +54,10 @@ class Achievment(BaseModel):
 class UserAchievments(BaseModel):
     achievment = models.ForeignKey(Achievment, on_delete=models.CASCADE)
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"Profile #{self.user.id} get achievment #{self.achievment.id}"
+
 
 class TaskType(BaseModel):
     name = models.CharField(max_length=40)
@@ -149,6 +158,8 @@ class Contest(BaseModel):
     users = models.ManyToManyField(Profile, through='UserToContest', related_name='contests')
     type = models.ForeignKey(ContestType, on_delete=models.SET_NULL, null=True, blank=True)
 
+
+
     def __str__(self):
         return f"#{self.id} {self.name}"
 
@@ -158,15 +169,24 @@ class TaskOnContest(BaseModel):
     contest = models.ForeignKey(Contest, on_delete=models.CASCADE)
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return f"Task #{self.task.id} to Contest #{self.contest.id} (order #{self.order})"
+
 
 class CategoryOnContest(BaseModel):
     contest = models.ForeignKey(Contest, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return f"Category #{self.category.id} to Contest #{self.contest.id}"
+
 
 class CompilerOnContest(BaseModel):
     contest = models.ForeignKey(Contest, on_delete=models.CASCADE)
     compiler = models.ForeignKey(Compiler, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"Compiler #{self.compiler.id} to Contest #{self.contest.id}"
 
 
 class ContestRole(BaseModel):
@@ -180,3 +200,6 @@ class UserToContest(BaseModel):
     contest = models.ForeignKey(Contest, on_delete=models.CASCADE)
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
     role = models.ForeignKey(ContestRole, null=True, on_delete=models.SET_NULL)
+
+    def __str__(self):
+        return f"Profile #{self.user.id} to Contest #{self.contest.id} with role {self.role}"
