@@ -32,7 +32,7 @@ class Profile(BaseModel):
     achievments = models.ManyToManyField('Achievment', through='UserAchievments')
 
     def __str__(self):
-        return f"#{self.id}/{self.last_name} {self.first_name[0] if self.first_name != '' else self.first_name}. {self.middle_name[0] if self.middle_name != '' else self.middle_name}. ({self.user.username})"
+        return f"#{self.id}/{self.last_name} {self.first_name[:1]}. {self.middle_name[:1]}. ({self.user.username})"
     
     @property
     def fullname(self):
@@ -42,10 +42,6 @@ class Profile(BaseModel):
 class Achievment(BaseModel):
     name = models.CharField(max_length=60)
     creator = models.ForeignKey(Profile, null=True, blank=True, on_delete=models.SET_NULL)
-
-    @property
-    def get_created_at(self):
-        return self.created_at
 
     def __str__(self):
         return f"#{self.id} {self.name}"
@@ -157,8 +153,6 @@ class Contest(BaseModel):
     compilers = models.ManyToManyField(Compiler, through='CompilerOncontest')
     users = models.ManyToManyField(Profile, through='UserToContest', related_name='contests')
     type = models.ForeignKey(ContestType, on_delete=models.SET_NULL, null=True, blank=True)
-
-
 
     def __str__(self):
         return f"#{self.id} {self.name}"
