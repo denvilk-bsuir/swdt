@@ -123,6 +123,7 @@ class Answer(BaseModel):
     answer_code = models.ForeignKey(AnswerCode, null=True, blank=True, on_delete=models.SET_NULL)
     verdict = models.ForeignKey(Verdict, null=True, on_delete=models.SET_NULL)
     penalty = models.IntegerField()
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"Answer #{self.id} for {self.task}"
