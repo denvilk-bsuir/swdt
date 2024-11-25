@@ -1,18 +1,25 @@
 from django.urls import reverse_lazy
-from django.views import View
 from django.views.generic.base import TemplateView
+from django.utils import timezone
 from django.shortcuts import redirect, render
-from django.contrib.auth import get_user_model, authenticate
+from django.contrib.auth import get_user_model
 from django.contrib.auth.views import LoginView
 
 from main.forms import LoginForm, SignUpForm
+from main.models import Contest
 
 
 User = get_user_model()
 
 
-def index(request):
-    return render(request, 'main/index.html')
+class IndexView(TemplateView):
+    template_name = 'main/index.html'
+
+    def get(self, request):
+        opened_contests = Contest.objects.filter(start_time__gte=timezone.now())
+        return render(request, self.template_name, {
+            'opened_contests': opened_contests,
+        })
 
 
 class SignUpView(TemplateView):
