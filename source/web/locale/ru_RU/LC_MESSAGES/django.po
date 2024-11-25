@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-19 23:57+0300\n"
+"POT-Creation-Date: 2024-11-25 21:21+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,35 +25,35 @@ msgstr "Английский"
 msgid "Russian"
 msgstr "Русский"
 
-#: main/forms.py:21
+#: main/forms.py:9 main/forms.py:34 templates/main/users/login.html:20
 msgid "UsernameField"
 msgstr "Имя пользователя"
 
-#: main/forms.py:22
+#: main/forms.py:11 main/forms.py:36 templates/main/users/login.html:35
 msgid "PasswordField"
 msgstr "Пароль"
 
-#: main/forms.py:23
+#: main/forms.py:13
 msgid "PasswordConfirmField"
 msgstr "Потверждение пароля"
 
-#: main/forms.py:24
+#: main/forms.py:15
 msgid "FirstnameField"
 msgstr "Имя"
 
-#: main/forms.py:25
+#: main/forms.py:17
 msgid "MiddlenameField"
 msgstr "Отчество"
 
-#: main/forms.py:26
+#: main/forms.py:19
 msgid "LastnameField"
 msgstr "Фамилия"
 
-#: main/forms.py:27
+#: main/forms.py:21
 msgid "CountryField"
 msgstr "Страна"
 
-#: main/forms.py:28
+#: main/forms.py:23
 msgid "EmailField"
 msgstr "Электронная почта"
 
@@ -64,6 +64,27 @@ msgstr "Тестирующая Система"
 #: templates/includes/header.html:19 templates/main/index.html:5
 msgid "HomePageName"
 msgstr "Главная"
+
+#: templates/includes/header.html:23 templates/main/users/login.html:5
+#: templates/main/users/login.html:10
+msgid "LoginPageName"
+msgstr "Авторизация"
+
+#: templates/includes/header.html:26
+msgid "SignupPageName"
+msgstr "Регистрация"
+
+#: templates/includes/header.html:32
+msgid "LogoutButton"
+msgstr "Выйти"
+
+#: templates/main/users/login.html:45
+msgid "LoginButton"
+msgstr "Войти"
+
+#: templates/main/users/login.html:48
+msgid "NotRegistered"
+msgstr "Не зарегистрированы"
 
 #: templates/main/users/signup.html:5 templates/main/users/signup.html:11
 msgid "SignUpPageName"
