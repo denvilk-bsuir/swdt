@@ -1,12 +1,12 @@
 from django.urls import reverse_lazy
 from django.views.generic.base import TemplateView
 from django.utils import timezone
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth import get_user_model
 from django.contrib.auth.views import LoginView
 
 from main.forms import LoginForm, SignUpForm
-from main.models import Contest
+from main.models import Contest, Task
 
 
 User = get_user_model()
@@ -70,5 +70,15 @@ class UserLoginView(LoginView):
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
 
-def login(request):
-    return render(request, 'test.html')
+
+class TaskView(TemplateView):
+
+    def get_task(self, task_id):
+        _task = get_object_or_404(Task, pk=task_id)
+        self.template_name = f'tasks/{_task.task_type.tester_name}.html'
+
+        return _task
+
+    def get(self, request, *args, **kwargs):
+        task = self.get_task(kwargs['id'])
+        return render(request, self.template_name, {'task': task})
