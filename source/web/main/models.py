@@ -74,6 +74,10 @@ class Task(BaseModel):
     def __str__(self):
         return f"#{self.id}/{self.name} ({self.task_type})" 
 
+    @property
+    def default_compilers(self):
+        return Compiler.objects.all()
+
 
 class Test(BaseModel):
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
