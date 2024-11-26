@@ -98,7 +98,7 @@ class Verdict(BaseModel):
 
 
 class AnswerOption(BaseModel):
-    task = models.ForeignKey(Task, on_delete=models.CASCADE)
+    task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name="answer_options")
     text = models.CharField(max_length=300)
 
     def __str__(self):

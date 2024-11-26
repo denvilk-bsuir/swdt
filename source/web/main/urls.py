@@ -7,6 +7,7 @@ from main.views import (
     UserLoginView,
 )
 from main.theta.theta_code import code_answer
+from main.theta.theta_quiz import quiz_answer
 
 urlpatterns = [
     path("", IndexView.as_view(), name='index'),
@@ -16,5 +17,6 @@ urlpatterns = [
 
     path('tasks/<int:id>/', TaskView.as_view(), name='theta_task'),
 
+    path('tasks/<int:id>/theta_quiz', quiz_answer, name='theta_quiz'),
     path('tasks/<int:id>/theta_code', code_answer, name='theta_code'),
 ]
