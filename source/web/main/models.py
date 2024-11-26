@@ -66,10 +66,10 @@ class TaskType(BaseModel):
 class Task(BaseModel):
     name = models.CharField(max_length=100)
     task_type = models.ForeignKey(TaskType, null=True, on_delete=models.SET_NULL)
-    statement = models.CharField(max_length=400)
-    input = models.CharField(max_length=400, null=True, blank=True)
-    output = models.CharField(max_length=400, null=True, blank=True)
-    note = models.CharField(max_length=400, null=True, blank=True)
+    statement = models.TextField()
+    input = models.TextField(null=True, blank=True)
+    output = models.TextField(null=True, blank=True)
+    note = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return f"#{self.id}/{self.name} ({self.task_type})" 
