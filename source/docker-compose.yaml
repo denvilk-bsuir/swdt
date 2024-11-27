@@ -12,6 +12,20 @@ services:
       PGDATA: "/data/postgres"
     volumes:
       - pg-data:/data/postgres
+  rabbitmq:
+    image: rabbitmq:3.10.7-management
+    hostname: rabbitmq
+    restart: always
+    ports:
+      - 15672:15672
+      - 5672:5672
+    environment:
+      - RABBITMQ_DEFAULT_USER=rmuser
+      - RABBITMQ_DEFAULT_PASS=rmpassword
+      - RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS=-rabbit log_levels [{connection,error},{default,error}] disk_free_limit 2147483648
+    volumes:
+      - rmq-data:/var/lib/rabbitmq
 
 volumes:
   pg-data:
+  rmq-data:
