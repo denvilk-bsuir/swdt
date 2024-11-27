@@ -1,5 +1,7 @@
+import json
 from django.shortcuts import redirect
 from main.models import Answer, AnswerCode, Task, Compiler
+from main.rmq import publisher
 
 
 def code_answer(request, *args, **kwargs):
@@ -9,11 +11,16 @@ def code_answer(request, *args, **kwargs):
             code=request.POST.get('answer'),
             compiler=Compiler.objects.get(id=request.POST.get('compiler')),
         )
-        Answer.objects.create(
+        answer = Answer.objects.create(
             task=task,
             answer_code=answer_code,
             user=request.user.profile,
             penalty=0,
         )
+        data = {
+            'task_id': task.id,
+            'answer_id': answer.id
+        }
+        publisher.publish(json.dumps(data))
 
     return redirect(f'/tasks/{kwargs['id']}/')
