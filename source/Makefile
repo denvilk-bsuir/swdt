@@ -9,3 +9,8 @@ make_i18n:
 
 update_i18n:
 	cd web && django-admin compilemessages
+
+start_rabbit:
+	export UID=$(id -u)                                                                                                                                                                                                      [20:55:40]
+	export GID=$(id -g)
+	docker-compose up -f docker-compose.dev.yaml up rabbitmq
