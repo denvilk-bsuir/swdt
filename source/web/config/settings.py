@@ -150,3 +150,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'index'
 LOGOUT_REDIRECT_URL = 'index'
+
+
+# RabbitMQ configuration
+
+TASK_QUEUE= 'tasks_queue'
+EXCHANGE = ''
+ROUTING_KEY = TASK_QUEUE
+
+RMQ_HOST = os.getenv('RMQ_HOST', 'localhost')
+RMQ_PORT = os.getenv('RMQ_PORT', '5672')
+RMQ_USER = os.getenv('RMQ_USER', 'rmuser')
+RMQ_PASSWORD = os.getenv("RMQ_PASSWORD", 'rmpassword')
