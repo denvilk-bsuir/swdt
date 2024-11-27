@@ -6,8 +6,8 @@ from main.views import (
     TaskView,
     UserLoginView,
 )
-from main.theta.theta_code import code_answer
-from main.theta.theta_quiz import quiz_answer
+from main.theta.handlers.theta_code import code_answer
+from main.theta.handlers.theta_quiz import quiz_answer
 
 urlpatterns = [
     path("", IndexView.as_view(), name='index'),
