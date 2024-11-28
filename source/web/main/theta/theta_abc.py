@@ -22,7 +22,8 @@ class ThetaAbstract(ABC):
         def decor(func):
             def wrapper(self, *args, **kwargs):
                 print("-"*30, name, "-"*30, file=sys.stderr)
-                func(self, *args, **kwargs)
+                res = func(self, *args, **kwargs)
                 print("-"*28, f'{name} END', "-"*28, file=sys.stderr)
+                return res
             return wrapper
         return decor
