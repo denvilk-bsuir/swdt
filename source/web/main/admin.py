@@ -19,6 +19,7 @@ from main.models import (
     CompilerOnContest, 
     ContestRole, 
     UserToContest,
+    Checker,
 )
 
 
@@ -217,4 +218,12 @@ class UserToContestAdmin(BaseAdmin):
         'contest',
         'user',
         'role'
+    ]
+
+@admin.register(Checker)
+class CheckerAdmin(BaseAdmin):
+    list_display = [
+        'id',
+        'compiler',
+        'code'
     ]

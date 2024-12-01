@@ -63,6 +63,13 @@ class TaskType(BaseModel):
         return self.name
 
 
+class Checker(BaseModel):
+    compiler = models.ForeignKey('Compiler', on_delete=models.CASCADE)
+    code = models.TextField()
+
+    def __str__(self):
+        return f'#{self.id} ({self.compiler})'
+
 class Task(BaseModel):
     name = models.CharField(max_length=100)
     task_type = models.ForeignKey(TaskType, null=True, on_delete=models.SET_NULL)
@@ -70,9 +77,10 @@ class Task(BaseModel):
     input = models.TextField(null=True, blank=True)
     output = models.TextField(null=True, blank=True)
     note = models.TextField(null=True, blank=True)
+    checker = models.ForeignKey(Checker, null=True, blank=True, on_delete=models.SET_NULL)
 
     def __str__(self):
-        return f"#{self.id}/{self.name} ({self.task_type})" 
+        return f"#{self.id}/{self.name} ({self.task_type})(checker #{self.checker})" 
 
     @property
     def default_compilers(self):
