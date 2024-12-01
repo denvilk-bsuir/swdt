@@ -77,7 +77,7 @@ class Task(BaseModel):
     input = models.TextField(null=True, blank=True)
     output = models.TextField(null=True, blank=True)
     note = models.TextField(null=True, blank=True)
-    checker = models.ForeignKey(Checker,null=True,blank=True,on_delete=models.SET_NULL)
+    checker = models.ForeignKey(Checker, null=True, blank=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return f"#{self.id}/{self.name} ({self.task_type})(checker #{self.checker})" 
