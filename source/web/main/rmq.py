@@ -2,7 +2,6 @@ from django.conf import settings
 import pika
 
 
-
 class RabbitMQ:
     def __new__(cls):
         if not hasattr(cls, 'instance'):
@@ -32,5 +31,8 @@ class RabbitMQ:
             body=body,
         )
 
-
-publisher = RabbitMQ()
+publisher = None
+if settings.RMQ_DEBUG:
+    publisher = None
+else:
+    publisher = RabbitMQ()

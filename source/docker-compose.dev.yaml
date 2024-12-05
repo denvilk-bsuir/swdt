@@ -18,7 +18,7 @@ services:
     image: rabbitmq:3.10.7-management
     hostname: rabbitmq
     user: "${UID}:${GID}"
-    restart: always
+    # restart: always
     ports:
       - 15672:15672
       - 5672:5672

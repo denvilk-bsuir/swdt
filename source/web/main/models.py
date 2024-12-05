@@ -122,7 +122,7 @@ class Compiler(BaseModel):
 
 
 class AnswerCode(BaseModel):
-    code = models.CharField(max_length=30)
+    code = models.TextField()
     compiler = models.ForeignKey(Compiler, on_delete=models.CASCADE)
 
     def __str__(self):
