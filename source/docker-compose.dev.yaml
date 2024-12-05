@@ -9,9 +9,7 @@ services:
     image: postgres
     ports:
       - "6401:5432"
-    environment:
-      POSTGRES_PASSWORD: "postgres"
-      PGDATA: "/data/postgres"
+    env_file: .env
     volumes:
       - pg-data:/data/postgres
   rabbitmq:
