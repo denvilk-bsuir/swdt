@@ -78,6 +78,8 @@ class Task(BaseModel):
     output = models.TextField(null=True, blank=True)
     note = models.TextField(null=True, blank=True)
     checker = models.ForeignKey(Checker, null=True, blank=True, on_delete=models.SET_NULL)
+    time_limit = models.IntegerField(default=1000, blank=True, null=True)
+    memory_limit = models.IntegerField(default=64, blank=True, null=True)
 
     def __str__(self):
         return f"#{self.id}/{self.name} ({self.task_type})(checker #{self.checker})" 
