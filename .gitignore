@@ -2,6 +2,6 @@
 **/.venv
 **/__pycache__
 **/rmq
-**/.env
+**/*.env
 **/.vscode
 **/*.sqlite3
