@@ -1,3 +1,4 @@
+import json
 from django.contrib import admin
 from main.models import (
     Profile, 
@@ -21,6 +22,7 @@ from main.models import (
     UserToContest,
     Checker,
 )
+from main.rmq import rmq_client
 
 
 class BaseAdmin(admin.ModelAdmin):
@@ -144,6 +146,19 @@ class AnswerAdmin(BaseAdmin):
         'verdict',
         'penalty'
     ]
+
+    actions = [
+        'requeue',
+    ]
+
+    @admin.action(description='Retest')
+    def requeue(self, request, queryset):
+        for item in queryset.all():
+            data = {
+                'task_id': item.task.id,
+                'answer_id': item.id
+            }
+            rmq_client.publish(json.dumps(data))
 
 
 @admin.register(Category)
