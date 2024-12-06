@@ -23,10 +23,12 @@ class Command(BaseCommand):
             )
 
         try:
-            answer.verdict = Verdict.objects.get(short_name=tester.test_result.value)
+            answer.verdict = Verdict.objects.get(short_name=tester.test_result)
             answer.save()
             ch.basic_ack(delivery_tag = method.delivery_tag)
         except Exception as e:
+            answer.verdict = Verdict.objects.get(short_name='err')
+            answer.save()
             print(f"[ERR] Error during saving result of test: {e}", file=sys.stderr)
 
     def handle(self, *args, **options):
