@@ -182,11 +182,10 @@ RMQ_HOST = os.getenv('RMQ_HOST', 'localhost')
 RMQ_PORT = os.getenv('RMQ_PORT', '5672')
 RMQ_USER = os.getenv('RMQ_USER', 'rmuser')
 RMQ_PASSWORD = os.getenv("RMQ_PASSWORD", 'rmpassword')
-RMQ_DEBUG = bool(os.getenv('RMQ_DEBUG', 'False'))
+RMQ_DEBUG = os.getenv('RMQ_DEBUG')
 
 
 # Theta configuration
+TEMP_DIR_DELETE = os.getenv("TEMP_DIR_DELETE")
 RUNEXE = os.getenv("RUNEXE")
 TESTLIB = os.getenv("TESTLIB")
-
-TEMP_DIR_DELETE = bool(os.getenv("TEMP_DIR_DELETE", 'True'))

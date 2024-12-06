@@ -31,8 +31,21 @@ class RabbitMQ:
             body=body,
         )
 
-publisher = None
+    def consume(self, callback):
+        self.channel.basic_consume(
+            queue=settings.TASK_QUEUE,
+            on_message_callback=callback,
+            auto_ack=False
+        )
+
+        self.channel.start_consuming()
+
+    def __del__(self):
+        self.channel.close()
+
+
+rmq_client = None
 if settings.RMQ_DEBUG:
-    publisher = None
+    rmq_client = None
 else:
-    publisher = RabbitMQ()
+    rmq_client = RabbitMQ()

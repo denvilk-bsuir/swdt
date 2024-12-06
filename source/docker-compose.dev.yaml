@@ -25,6 +25,11 @@ services:
       - RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS=-rabbit log_levels [{connection,error},{default,error}] disk_free_limit 2147483648
     volumes:
       - ./rmq:/var/lib/rabbitmq
-
+  runner:
+    image: ts-runner
+    env_file: .runner.env
+    environment:
+      - RUNEXE=/runexe/build/runexe
+      - TESTLIB=/testlib/testlib.h
 volumes:
   pg-data:

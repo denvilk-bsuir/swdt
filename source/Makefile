@@ -14,3 +14,10 @@ start_rabbit:
 	export UID=$(id -u)
 	export GID=$(id -g)
 	docker-compose -f docker-compose.dev.yaml up rabbitmq
+
+build:
+	docker build --tag ts-web web/
+	docker build --tag ts-runner runner/
+
+runner-run:
+	docker-compose -f docker-compose.dev.yaml up runner

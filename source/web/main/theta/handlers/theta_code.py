@@ -1,7 +1,7 @@
 import json
 from django.shortcuts import redirect
 from main.models import Answer, AnswerCode, Task, Compiler
-from main.rmq import publisher
+from main.rmq import rmq_client
 
 
 def code_answer(request, *args, **kwargs):
@@ -21,6 +21,6 @@ def code_answer(request, *args, **kwargs):
             'task_id': task.id,
             'answer_id': answer.id
         }
-        publisher.publish(json.dumps(data))
+        rmq_client.publish(json.dumps(data))
 
     return redirect(f'/tasks/{kwargs['id']}/')
