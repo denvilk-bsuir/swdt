@@ -6,7 +6,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.views import LoginView
 
 from main.forms import LoginForm, SignUpForm
-from main.models import Contest, Task
+from main.models import Answer, Contest, Task
 
 
 User = get_user_model()
@@ -81,4 +81,6 @@ class TaskView(TemplateView):
 
     def get(self, request, *args, **kwargs):
         task = self.get_task(kwargs['id'])
-        return render(request, self.template_name, {'task': task})
+        answers = Answer.objects.filter(task=task, user=request.user.profile).order_by('-created_at')
+
+        return render(request, self.template_name, {'task': task, 'answers': answers})
