@@ -1,0 +1,52 @@
+name: Build Images
+
+on:
+  pull_request:
+    branches: [ "main", "dev" ]
+
+env:
+  NODE_VERSION: 20.15
+  REGISTRY: ghcr.io
+  TS_WEB_IMAGE_NAME: ts_web
+  TS_RUNNER_IMAGE_NAME: ts_runner
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Log in to the Container registry
+        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Set short git commit SHA
+        id: vars
+        run: |
+          calculatedSha=$(git rev-parse --short ${{ github.sha }})
+          echo "COMMIT_SHORT_SHA=$calculatedSha" >> $GITHUB_ENV
+      - name: Build ts-web
+        uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
+        with:
+          context: ./source/web
+          file: ./source/web/Dockerfile
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/${{ github.repository }}:${{ env.TS_WEB_IMAGE_NAME }}-${{ env.COMMIT_SHORT_SHA  }}
+            ${{ env.REGISTRY }}/${{ github.repository }}:${{ env.TS_WEB_IMAGE_NAME }}-latest
+      - name: Build ts-runner
+        uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
+        with:
+          context: ./source/runner
+          file: ./source/runner/Dockerfile
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/${{ github.repository }}:${{ env.TS_RUNNER_IMAGE_NAME }}-${{ env.COMMIT_SHORT_SHA  }}
+            ${{ env.REGISTRY }}/${{ github.repository }}:${{ env.TS_RUNNER_IMAGE_NAME }}-latest
+          build-args: |
+            TS_WEB_VERSION=${{ env.COMMIT_SHORT_SHA }}
