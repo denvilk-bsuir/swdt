@@ -3,7 +3,7 @@ import json
 
 from django.core.management.base import BaseCommand
 
-from main.models import Answer
+from main.models import Answer, Verdict
 from main.theta.theta import Theta
 from main.rmq import rmq_client
 
@@ -22,9 +22,12 @@ class Command(BaseCommand):
                 expected_output=test.test_output,
             )
 
-        print(tester.test_result, file=sys.stderr)
-        # ch.basic_ack(delivery_tag = method.delivery_tag)
+        try:
+            answer.verdict = Verdict.objects.get(short_name=tester.test_result.value)
+            answer.save()
+            ch.basic_ack(delivery_tag = method.delivery_tag)
+        except Exception as e:
+            print(f"[ERR] Error during saving result of test: {e}", file=sys.stderr)
 
     def handle(self, *args, **options):
-        # answer = Answer.objects.get(id=7) # quiz
         rmq_client.consume(self.rmq_callback)
