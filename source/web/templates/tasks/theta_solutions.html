@@ -1,0 +1,35 @@
+{% load i18n %}
+<h3 class="mt-5">{% trans "Submissions" %}</h3>
+<hr>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Solution</th>
+            <th>Verdict</th>
+            <th>Submission time</th>
+            <th>Link</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% if not answers %}
+            No answers yet.
+        {% else %}
+            {% for answer in answers %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{answer.task.name}}</td>
+
+                    <td>{% if answer.verdict %}
+                            {{answer.verdict.name}}
+                        {% else %}
+                            Not tested yet.
+                        {% endif %}
+                    </td>
+                    <td>{{answer.created_at}}</td>
+                    <td><a href="">Link</a></td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+    </tbody>
+</table>
