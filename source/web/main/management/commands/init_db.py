@@ -9,6 +9,7 @@ class Command(BaseCommand):
         Compiler.objects.get_or_create(name="GNU C++20", extension='.cpp20')
 
         TaskType.objects.get_or_create(name='Code', tester_name='theta_code')
+        TaskType.objects.get_or_create(name='Quiz', tester_name='theta_quiz')
 
         Verdict.objects.get_or_create(name='OK', short_name='ok')
         Verdict.objects.get_or_create(name='Wrong answer', short_name='wa')
