@@ -1,4 +1,4 @@
-name: Django CI
+name: Codecov
 
 on:
   push:
@@ -29,3 +29,12 @@ jobs:
         export SQLITE_MODE=True
         export RMQ_DEBUG=True
         pytest source/web/
+    - name: Generate coverage
+      run: |
+        export SQLITE_MODE=True
+        export RMQ_DEBUG=True
+        coverage run -m pytest source/web/
+    - name: Upload Coverage to Codecov
+      uses: codecov/codecov-action@v5
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
