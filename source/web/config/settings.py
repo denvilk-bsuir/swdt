@@ -186,7 +186,6 @@ RMQ_DEBUG = os.getenv('RMQ_DEBUG')
 
 
 # Theta configuration
+TEMP_DIR_DELETE = os.getenv("TEMP_DIR_DELETE")
 RUNEXE = os.getenv("RUNEXE")
 TESTLIB = os.getenv("TESTLIB")
-
-TEMP_DIR_DELETE = bool(os.getenv("TEMP_DIR_DELETE", 'True'))

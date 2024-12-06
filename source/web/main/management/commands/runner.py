@@ -1,3 +1,4 @@
+import sys
 import json
 
 from django.core.management.base import BaseCommand
@@ -11,7 +12,6 @@ class Command(BaseCommand):
 
     @staticmethod
     def rmq_callback(ch, method, properties, body):
-        print(body)
         data = json.loads(body.decode())
         answer = Answer.objects.get(id=data['answer_id'])
         tester = Theta(answer.task.task_type.tester_name, answer=answer, task=answer.task)
@@ -22,7 +22,7 @@ class Command(BaseCommand):
                 expected_output=test.test_output,
             )
 
-        print(tester.test_result)
+        print(tester.test_result, file=sys.stderr)
         # ch.basic_ack(delivery_tag = method.delivery_tag)
 
     def handle(self, *args, **options):

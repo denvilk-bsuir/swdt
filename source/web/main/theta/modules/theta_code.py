@@ -124,7 +124,11 @@ class ThetaCode(ThetaAbstract):
         file_out = Path(self.test_dir.name, 'output.txt')
         verdict = Path(self.test_dir.name, 'verdict.xml')
 
-        run = f'{RUNEXE} -xml -m 1M -i {str(file_in)} -o {str(file_out)} {cmd} > {str(verdict)}'
+        run = (
+            f'{RUNEXE} -xml -m {self.task.memory_limit}M '
+            f'-t {self.task.time_limit}ms -i {str(file_in)} '
+            f'-o {str(file_out)} {cmd} > {str(verdict)}'
+        )
 
         res = os.system(run)
         if res != 0:

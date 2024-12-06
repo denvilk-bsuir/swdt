@@ -3,6 +3,14 @@ FROM ts-web
 USER root
 
 RUN apk add build-base
+RUN apk add cmake git
+
+WORKDIR /runexe
+RUN git clone https://github.com/prodigy-by/runexe .
+RUN mkdir build
+WORKDIR /runexe/build
+RUN cmake ..
+RUN make
 
 WORKDIR /app
 
