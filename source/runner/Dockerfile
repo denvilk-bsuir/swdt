@@ -1,4 +1,5 @@
-FROM ts-web
+ARG TS_WEB_VERSION=latest
+FROM ts-web:TS_WEB_VERSION
 
 USER root
 
