@@ -1,5 +1,6 @@
 from main.theta.theta_abc import ThetaAbstract
 from main.theta.modules.theta_code import ThetaCode
+from main.theta.modules.theta_quiz import ThetaQuiz
 
 
 class Theta:

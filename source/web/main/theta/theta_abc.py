@@ -1,9 +1,21 @@
 import sys
+from enum import Enum
 from abc import ABC, abstractmethod
 
 
 class ThetaAbstract(ABC):
     modules: dict[str, 'ThetaAbstract'] = {}
+
+    class TaskResultVerdict(Enum):
+        OK = 'ok'
+        WA = 'wa'
+        CE = 'ce'
+        RE = 're'
+        PE = 'pe'
+        FAIL = 'fail'
+        ML = 'ml'
+        TL = 'tl'
+        ERR = 'err'
 
     def __init__(self, *args, **kwargs):
         self.args = args

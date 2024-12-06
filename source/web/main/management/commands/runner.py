@@ -23,7 +23,7 @@ class Command(BaseCommand):
             )
 
         try:
-            answer.verdict = Verdict.objects.get(short_name=tester.test_result)
+            answer.verdict = Verdict.objects.get(short_name=tester.test_result.value)
             answer.save()
             ch.basic_ack(delivery_tag = method.delivery_tag)
         except Exception as e:

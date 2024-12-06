@@ -17,7 +17,7 @@ start_rabbit:
 
 build:
 	docker build --tag ts-web web/
-	docker build --tag ts-runner runner/
+	docker build --tag ts-runner - < runner/Dockerfile.dev
 
 runner-run:
 	docker-compose -f docker-compose.dev.yaml up runner
