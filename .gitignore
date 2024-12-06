@@ -5,3 +5,4 @@
 **/*.env
 **/.vscode
 **/*.sqlite3
+**/.coverage
