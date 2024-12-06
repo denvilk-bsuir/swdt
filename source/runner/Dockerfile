@@ -1,5 +1,5 @@
 ARG TS_WEB_VERSION=latest
-FROM ts-web:TS_WEB_VERSION
+FROM ghcr.io/denvilk-bsuir/swdt:ts_web-${TS_WEB_VERSION}
 
 USER root
 
