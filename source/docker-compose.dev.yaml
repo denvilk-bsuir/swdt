@@ -27,8 +27,9 @@ services:
       - ./rmq:/var/lib/rabbitmq
   runner:
     image: ts-runner
+    env_file: .runner.env
     environment:
       - RUNEXE=/runexe/build/runexe
-    env_file: .runner.env
+      - TESTLIB=/testlib/testlib.h
 volumes:
   pg-data:
