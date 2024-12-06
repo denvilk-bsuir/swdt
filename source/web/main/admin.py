@@ -141,8 +141,6 @@ class AnswerAdmin(BaseAdmin):
     list_display = [
         'id',
         'task',
-        'answer_option',
-        'answer_code',
         'verdict',
         'penalty'
     ]
