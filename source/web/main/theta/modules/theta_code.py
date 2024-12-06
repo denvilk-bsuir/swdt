@@ -1,5 +1,6 @@
 import os
 import shutil
+import sys
 import tempfile
 import xml.etree.ElementTree as ET
 from enum import Enum
@@ -32,17 +33,6 @@ class ThetaCode(ThetaAbstract):
         POINTS = 5
         UNEXPECTED_EOF = 8
         PARTIALLY = 16
-
-    class TaskResultVerdict(Enum):
-        OK = 'ok'
-        WA = 'wa'
-        CE = 'ce'
-        RE = 're'
-        PE = 'pe'
-        FAIL = 'fail'
-        ML = 'ml'
-        TL = 'tl'
-        ERR = 'err'
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -83,7 +73,7 @@ class ThetaCode(ThetaAbstract):
             case '.cpp20':
                 res = os.system(f"g++ -x c++ -std=c++20 -O0 -DCONTEST {file} -o {self.dir.name}/{name} -v")
                 if res != 0:
-                    self.test_result = ThetaCode.TaskResultVerdict.CE
+                    self.test_result = ThetaAbstract.TaskResultVerdict.CE
             case '.py':
                 return
 
@@ -91,26 +81,29 @@ class ThetaCode(ThetaAbstract):
     def __parse_verdict_from_xml(self, verdict_xml) -> str:
         ''' Method for parse verdict from runexe XML file '''
         tree = ET.parse(verdict_xml)
+        with open(verdict_xml, 'r') as f:
+            print(f.read(), file=sys.stderr)
         for result in tree.findall("invocationResult"):
             if result.get('id') == 'program':
                 res = result.find("invocationVerdict").text
                 exit_code = result.find("exitCode").text
+                print(res, exit_code, file=sys.stderr)
                 match res:
                     case "SUCCEEDED":
                         if exit_code != '0':
-                            return ThetaCode.TaskResultVerdict.ERR
-                        return ThetaCode.TaskResultVerdict.OK
+                            return ThetaAbstract.TaskResultVerdict.ERR
+                        return ThetaAbstract.TaskResultVerdict.OK
                     case "TIME_LIMIT_EXCEEDED":
-                        return ThetaCode.TaskResultVerdict.TL
+                        return ThetaAbstract.TaskResultVerdict.TL
                     case "MEMORY_LIMIT_EXCEEDED":
-                        return ThetaCode.TaskResultVerdict.ML
+                        return ThetaAbstract.TaskResultVerdict.ML
                     case "CRASH":
-                        return ThetaCode.TaskResultVerdict.FAIL
+                        return ThetaAbstract.TaskResultVerdict.FAIL
                     case _:
-                        return ThetaCode.TaskResultVerdict.ERR
+                        return ThetaAbstract.TaskResultVerdict.ERR
 
     @ThetaAbstract._logging("RUN")
-    def run(self) -> TaskResultVerdict:
+    def run(self) -> ThetaAbstract.TaskResultVerdict:
         ''' Method for running code on test '''
         cmd = ''
 
@@ -132,10 +125,10 @@ class ThetaCode(ThetaAbstract):
 
         res = os.system(run)
         if res != 0:
-            return ThetaCode.TaskResultVerdict.RE
+            return ThetaAbstract.TaskResultVerdict.RE
         verdict = self.__parse_verdict_from_xml(verdict)
         if res != 0:
-            return ThetaCode.TaskResultVerdict.RE
+            return ThetaAbstract.TaskResultVerdict.RE
         return verdict
 
     def is_valid(self) -> __CheckerResult:
@@ -161,7 +154,7 @@ class ThetaCode(ThetaAbstract):
     @ThetaAbstract._logging("TEST")
     def test(self, input, expected_output):
         self.count += 1
-        if self.test_result is not None or self.test_result == ThetaCode.TaskResultVerdict.CE:
+        if self.test_result is not None or self.test_result == ThetaAbstract.TaskResultVerdict.CE:
             return self.test_result
 
         self.test_dir = tempfile.TemporaryDirectory(delete=settings.TEMP_DIR_DELETE)
@@ -172,15 +165,15 @@ class ThetaCode(ThetaAbstract):
 
         run_result = self.run()
 
-        if run_result != ThetaCode.TaskResultVerdict.OK:
-            self.test_result = run_result.value
+        if run_result != ThetaAbstract.TaskResultVerdict.OK:
+            self.test_result = run_result
             return
 
         is_valid = self.is_valid()
         if is_valid != ThetaCode.__CheckerResult.OK:
-            self.test_result = ThetaCode.TaskResultVerdict(is_valid.name)
+            self.test_result = ThetaAbstract.TaskResultVerdict(is_valid.name)
 
         if self.task.test_set.all().count() == self.count:
-            self.test_result = ThetaCode.TaskResultVerdict.OK if self.test_result is None else self.test_result
+            self.test_result = ThetaAbstract.TaskResultVerdict.OK if self.test_result is None else self.test_result
 
         self.test_dir.cleanup()
