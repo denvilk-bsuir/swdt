@@ -16,7 +16,7 @@ class IndexView(TemplateView):
     template_name = 'main/index.html'
 
     def get(self, request):
-        opened_contests = Contest.objects.filter(start_time__gte=timezone.now())
+        opened_contests = Contest.objects.opened_contests()
         return render(request, self.template_name, {
             'opened_contests': opened_contests,
         })
@@ -84,3 +84,12 @@ class TaskView(TemplateView):
         answers = Answer.objects.filter(task=task, user=request.user.profile).order_by('-created_at')
 
         return render(request, self.template_name, {'task': task, 'answers': answers})
+
+
+class TaskListView(TemplateView):
+    template_name = 'tasks/tasks_list.html'
+
+    def get(self, request, *args, **kwargs):
+        tasks = Task.objects.exclude(contest__in=Contest.objects.active_contests())
+
+        return render(request, self.template_name, {'tasks': tasks})

@@ -1,7 +1,9 @@
 from django.db import models
+from django.db.models import F
+from django.db.models.signals import post_save
+from django.utils import timezone
 from django.dispatch import receiver
 from django.contrib.auth import get_user_model
-from django.db.models.signals import post_save
 
 
 User = get_user_model()
@@ -33,7 +35,7 @@ class Profile(BaseModel):
 
     def __str__(self):
         return f"#{self.id}/{self.last_name} {self.first_name[:1]}. {self.middle_name[:1]}. ({self.user.username})"
-    
+
     @property
     def fullname(self):
         return f"{self.last_name} {self.first_name} {self.middle_name}"
@@ -82,7 +84,7 @@ class Task(BaseModel):
     memory_limit = models.IntegerField(default=64, blank=True, null=True)
 
     def __str__(self):
-        return f"#{self.id}/{self.name} ({self.task_type})(checker #{self.checker})" 
+        return f"#{self.id}/{self.name} ({self.task_type})(checker #{self.checker})"
 
     @property
     def default_compilers(self):
@@ -158,6 +160,24 @@ class ContestType(BaseModel):
         return self.name
 
 
+class ContestManager(models.Manager):
+
+    def active_contests(self):
+        now = timezone.now()
+        return self.get_queryset().filter(
+            start_time__lte=now,
+            start_time__gte=now - F("duration")
+        )
+
+    def opened_contests(self):
+        now = timezone.now()
+        return self.get_queryset().filter(start_time__gte=now)
+
+    def ended_contests(self):
+        now = timezone.now()
+        return self.get_queryset().filter(start_time__gt=now - F('duration'))
+
+
 class Contest(BaseModel):
     author = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='authored_contests')
     start_time = models.DateTimeField()
@@ -168,6 +188,8 @@ class Contest(BaseModel):
     compilers = models.ManyToManyField(Compiler, through='CompilerOncontest')
     users = models.ManyToManyField(Profile, through='UserToContest', related_name='contests')
     type = models.ForeignKey(ContestType, on_delete=models.SET_NULL, null=True, blank=True)
+
+    objects = ContestManager()
 
     def __str__(self):
         return f"#{self.id} {self.name}"
