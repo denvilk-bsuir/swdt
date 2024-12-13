@@ -12,9 +12,9 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Link</th>
+                    <th>{% trans "ItemName" %}</th>
+                    <th>{% trans "ItemType" %}</th>
+                    <th>{% trans "Link" %}</th>
                 </tr>
             </thead>
             <tbody>
@@ -24,11 +24,11 @@
                             <td>{{task.pk}}</td>
                             <td>{{task.name}}</td>
                             <td>{{task.task_type.name}}</td>
-                            <td><a href="{% url 'theta_task' task.pk %}">Link</a></td>
+                            <td><a href="{% url 'theta_task' task.pk %}">{% trans "Link" %}</a></td>
                         </tr>
                     {% endfor %}
                 {% else %}
-                    No tasks.
+                    {% trans "Empty" %}
                 {% endif %}
             </tbody>
         </table>
