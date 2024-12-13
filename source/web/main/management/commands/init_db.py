@@ -1,6 +1,11 @@
 from django.core.management.base import BaseCommand
 
-from main.models import Compiler, TaskType, Verdict
+from main.models import (
+    Compiler,
+    ContestRole,
+    TaskType,
+    Verdict,
+)
 
 class Command(BaseCommand):
     help = 'Initialize models'
@@ -20,3 +25,5 @@ class Command(BaseCommand):
         Verdict.objects.get_or_create(name='Presentation error', short_name='pe')
         Verdict.objects.get_or_create(name='Compilation error', short_name='ce')
         Verdict.objects.get_or_create(name='Error', short_name='err')
+
+        ContestRole.objects.get_or_create(name='Participant')
