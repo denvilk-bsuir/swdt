@@ -1,0 +1,39 @@
+{% extends "wrapper.html" %}
+{% load i18n %}
+
+{% block title %}
+{% trans "ContestsList" %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>{% trans "ItemName" %}</th>
+                    <th>{% trans "ItemType" %}</th>
+                    <th>{% trans "Status" %}</th>
+                    <th>{% trans "Link" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if contests %}
+                    {% for contest in contests %}
+                        <tr>
+                            <td>{{contest.pk}}</td>
+                            <td>{{contest.name}}</td>
+                            <td>{{contest.type.name}}</td>
+                            <td>{{contest.status.value.1}}</td>
+                            <td><a href="{% url 'contest_detail' contest.pk %}">{% trans 'Link' %}</a></td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    {% trans "Empty" %}
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

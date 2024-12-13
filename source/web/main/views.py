@@ -100,6 +100,14 @@ class TaskListView(TemplateView):
         return render(request, self.template_name, {'tasks': tasks})
 
 
+class ContestListView(TemplateView):
+    template_name = 'contests/contests_list.html'
+
+    def get(self, request, *args, **kwargs):
+        contests = Contest.objects.all().order_by('-start_time')
+        return render(request, self.template_name, {'contests': contests})
+
+
 class ContestRegisterView(TemplateView):
     template_name = 'contests/registration.html'
 

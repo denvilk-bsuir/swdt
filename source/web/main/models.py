@@ -1,9 +1,11 @@
+from enum import Enum
 from django.db import models
 from django.db.models import F
 from django.db.models.signals import post_save
 from django.utils import timezone
 from django.dispatch import receiver
 from django.contrib.auth import get_user_model
+from django.utils.translation import gettext_lazy as _
 
 
 User = get_user_model()
@@ -190,6 +192,20 @@ class Contest(BaseModel):
     type = models.ForeignKey(ContestType, on_delete=models.SET_NULL, null=True, blank=True)
 
     objects = ContestManager()
+
+    class ContestStatus(Enum):
+        OPENED = ('opened', _('Opened'))
+        CLOSED = ('closed', _('Closed'))
+        ONGOING = ('ongoing', _('Ongoing'))
+
+    @property
+    def status(self):
+        now = timezone.now()
+        if now < self.start_time:
+            return self.ContestStatus.OPENED
+        if self.start_time <= now < self.start_time + self.duration:
+            return self.ContestStatus.ONGOING
+        return self.ContestStatus.CLOSED
 
     def __str__(self):
         return f"#{self.id} {self.name}"
