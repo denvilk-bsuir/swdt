@@ -136,7 +136,7 @@ class ContestRegisterView(TemplateView):
                 return redirect('contest_detail', kwargs['id'])
         return render(request, self.template_name, {'contest': contest})
 
-      
+
 class ContestDetailView(TemplateView):
     template_name = 'contests/contest_detail.html'
 
@@ -178,4 +178,3 @@ class ContestTaskView(TemplateView):
                 'contest': contest,
             }
         )
-      
