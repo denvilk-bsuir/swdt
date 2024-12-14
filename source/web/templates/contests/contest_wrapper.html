@@ -1,0 +1,30 @@
+{% extends "wrapper.html" %}
+
+{% block title %}
+{% endblock title %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            {% block contest_content %}
+            {% endblock contest_content %}
+        </div>
+        <div class="col-md-4">
+            {% if contest.tasks %}
+                <ul>
+                    <li>
+                        <a href="{% url 'contest_detail' contest.pk %}">{{ contest.name }}</a>
+                    </li>
+                    {% for order, task in contest.ordered_tasks %}
+                    <li>
+                        <a href="{% url 'contest_detail_task' contest.pk order %}">#{{order}} {{task.name}}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
