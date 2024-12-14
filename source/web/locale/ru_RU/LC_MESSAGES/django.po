@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-26 00:08+0300\n"
+"POT-Creation-Date: 2024-12-14 01:53+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: config/settings.py:128
+#: config/settings.py:148
 msgid "English"
 msgstr "Английский"
 
-#: config/settings.py:129
+#: config/settings.py:149
 msgid "Russian"
 msgstr "Русский"
 
@@ -57,6 +57,44 @@ msgstr "Страна"
 msgid "EmailField"
 msgstr "Электронная почта"
 
+#: main/models.py:197
+msgid "Opened"
+msgstr "Открыта регистрация"
+
+#: main/models.py:198
+msgid "Closed"
+msgstr "Окончен"
+
+#: main/models.py:199
+msgid "Ongoing"
+msgstr "Идет"
+
+#: templates/contests/contests_list.html:5
+msgid "ContestsList"
+msgstr "Список контестов"
+
+#: templates/contests/contests_list.html:15 templates/tasks/tasks_list.html:15
+msgid "ItemName"
+msgstr "Название"
+
+#: templates/contests/contests_list.html:16 templates/tasks/tasks_list.html:16
+msgid "ItemType"
+msgstr "Тип"
+
+#: templates/contests/contests_list.html:17
+msgid "Status"
+msgstr "Статус"
+
+#: templates/contests/contests_list.html:18
+#: templates/contests/contests_list.html:29 templates/tasks/tasks_list.html:17
+#: templates/tasks/tasks_list.html:27
+msgid "Link"
+msgstr "Ссылка"
+
+#: templates/contests/contests_list.html:33 templates/tasks/tasks_list.html:31
+msgid "Empty"
+msgstr "Пусто"
+
 #: templates/includes/header.html:4 templates/main/index.html:9
 msgid "SysName"
 msgstr "Тестирующая Система"
@@ -65,16 +103,24 @@ msgstr "Тестирующая Система"
 msgid "HomePageName"
 msgstr "Главная"
 
-#: templates/includes/header.html:23 templates/main/users/login.html:5
+#: templates/includes/header.html:22
+msgid "Contests"
+msgstr "Контесты"
+
+#: templates/includes/header.html:25
+msgid "Tasks"
+msgstr "Задачи"
+
+#: templates/includes/header.html:29 templates/main/users/login.html:5
 #: templates/main/users/login.html:10
 msgid "LoginPageName"
 msgstr "Авторизация"
 
-#: templates/includes/header.html:26
+#: templates/includes/header.html:32
 msgid "SignupPageName"
 msgstr "Регистрация"
 
-#: templates/includes/header.html:32
+#: templates/includes/header.html:38
 msgid "LogoutButton"
 msgstr "Выйти"
 
@@ -101,6 +147,26 @@ msgstr "Регистрация"
 #: templates/main/users/signup.html:15
 msgid "SignUpButton"
 msgstr "Зарегистрироваться"
+
+#: templates/tasks/tasks_list.html:5
+msgid "TasksList"
+msgstr "Список задач"
+
+#: templates/tasks/theta_code.html:11 templates/tasks/theta_quiz.html:11
+msgid "TaskStatement"
+msgstr "Условие задачи"
+
+#: templates/tasks/theta_code.html:13
+msgid "TaskInputFormat"
+msgstr "Формат ввода"
+
+#: templates/tasks/theta_code.html:15
+msgid "TaskOutputFormat"
+msgstr "Формат вывода"
+
+#: templates/tasks/theta_solutions.html:2
+msgid "Submissions"
+msgstr "Посылки"
 
 #~ msgid "HelloWorld"
 #~ msgstr "Привет Мир!"

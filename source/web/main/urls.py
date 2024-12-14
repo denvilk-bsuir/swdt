@@ -7,6 +7,7 @@ from main.views import (
     TaskView,
     TaskListView,
     UserLoginView,
+    ContestListView,
     ContestDetailView,
     ContestTaskView,
 )
@@ -25,6 +26,7 @@ urlpatterns = [
     path('tasks/<int:id>/theta_code', code_answer, name='theta_code'),
     path('tasks/<int:id>/theta_quiz', quiz_answer, name='theta_quiz'),
 
+    path('contest/', ContestListView.as_view(), name='contests'),
     path('contest/<int:id>/', ContestDetailView.as_view(), name='contest_detail'),
     path('contest/<int:id>/<int:task_order>', ContestTaskView.as_view(), name='contest_detail_task'),
     path('contest/<int:id>/register', ContestRegisterView.as_view(), name='contest_register'),
