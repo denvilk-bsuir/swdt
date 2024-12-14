@@ -1,12 +1,18 @@
 from django.urls import reverse_lazy
 from django.views.generic.base import TemplateView
-from django.utils import timezone
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth import get_user_model
 from django.contrib.auth.views import LoginView
 
 from main.forms import LoginForm, SignUpForm
-from main.models import Answer, Contest, Task, TaskOnContest
+from main.models import (
+    Answer,
+    Contest,
+    ContestRole,
+    Task,
+    UserToContest,
+    TaskOnContest,
+)
 
 
 User = get_user_model()
@@ -104,6 +110,33 @@ class TaskListView(TemplateView):
         return render(request, self.template_name, {'tasks': tasks})
 
 
+class ContestRegisterView(TemplateView):
+    template_name = 'contests/registration.html'
+
+    def get_contest(self, contest_id):
+        return get_object_or_404(Contest, pk=contest_id)
+
+    def get(self, request, *args, **kwargs):
+        contest = self.get_contest(kwargs['id'])
+        if contest not in Contest.objects.opened_contests():
+            return redirect('index')
+        if request.user.profile in contest.users.all():
+            return redirect('contest_detail', kwargs['id'])
+        return render(request, self.template_name, {'contest': self.get_contest(kwargs['id'])})
+
+    def post(self, request, *args, **kwargs):
+        contest = self.get_contest(kwargs['id'])
+        if contest in Contest.objects.opened_contests() and\
+            request.user.profile not in contest.users.all():
+                UserToContest.objects.create(
+                    contest=contest,
+                    user=request.user.profile,
+                    role=ContestRole.objects.get(name="Participant")
+                )
+                return redirect('contest_detail', kwargs['id'])
+        return render(request, self.template_name, {'contest': contest})
+
+      
 class ContestDetailView(TemplateView):
     template_name = 'contests/contest_detail.html'
 
@@ -145,3 +178,4 @@ class ContestTaskView(TemplateView):
                 'contest': contest,
             }
         )
+      

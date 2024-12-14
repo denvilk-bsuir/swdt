@@ -1,0 +1,14 @@
+{% extends "wrapper.html" %}
+
+{% block title %}
+Contest registration
+{% endblock %}
+
+{% block content %}
+    <h1>Contest registration</h1>
+    <p>Rules for contest:</p>
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit">Register</button>
+    </form>
+{% endblock %}

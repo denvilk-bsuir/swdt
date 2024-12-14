@@ -1,6 +1,7 @@
 from django.urls import path
 from django.contrib.auth.views import LogoutView
 from main.views import (
+    ContestRegisterView,
     IndexView,
     SignUpView,
     TaskView,
@@ -26,4 +27,5 @@ urlpatterns = [
 
     path('contest/<int:id>/', ContestDetailView.as_view(), name='contest_detail'),
     path('contest/<int:id>/<int:task_order>', ContestTaskView.as_view(), name='contest_detail_task'),
+    path('contest/<int:id>/register', ContestRegisterView.as_view(), name='contest_register'),
 ]
