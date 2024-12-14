@@ -1,39 +1,27 @@
-{% extends "wrapper.html" %}
 {% load i18n %}
 
-{% block title %}
-{{task.name}}
-{% endblock %}
-
-{% block content %}
-<div class="container">
-    <div class="row">
-        <h3>{% trans "TaskStatement" %}</h3>
-        <p>{{task.statement}}</p>
-        <h3>{% trans "TaskInputFormat" %}</h3>
-        <p>{{task.input}}</p>
-        <h3>{% trans "TaskOutputFormat" %}</h3>
-        <p>{{task.output}}</p>
-        <form method="POST" action="{% url 'theta_code' task.id %}">
-            {% csrf_token %}
-            <div class="mb-3">
-                <label for="answer" class="form-label">Code</label>
-                <textarea class="form-control" id="answer" rows="3" name="answer"></textarea>
-            </div>
-            <select name="compiler" id="compiler">
-                {% if contest %}
-                    {% for compiler in contest.compilers.all %}
-                        <option value="{{compiler.id}}">{{compiler.name}}</option>
-                    {% endfor %}
-                {% else %}
-                    {% for compiler in task.default_compilers %}
-                        <option value="{{compiler.id}}">{{compiler.name}}</option>
-                    {% endfor %}
-                {% endif %}
-            </select>
-            <button type="submit">Send answer</button>
-        </form>
-        {% include "tasks/theta_solutions.html" %}
+<h3>{% trans "TaskStatement" %}</h3>
+<p>{{task.statement}}</p>
+<h3>{% trans "TaskInputFormat" %}</h3>
+<p>{{task.input}}</p>
+<h3>{% trans "TaskOutputFormat" %}</h3>
+<p>{{task.output}}</p>
+<form method="POST" action="{% url 'theta_code' task.id %}">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="answer" class="form-label">Code</label>
+        <textarea class="form-control" id="answer" rows="3" name="answer"></textarea>
     </div>
-</div>
-{% endblock %}
+    <select name="compiler" id="compiler">
+        {% if contest %}
+            {% for compiler in contest.compilers.all %}
+                <option value="{{compiler.id}}">{{compiler.name}}</option>
+            {% endfor %}
+        {% else %}
+            {% for compiler in task.default_compilers %}
+                <option value="{{compiler.id}}">{{compiler.name}}</option>
+            {% endfor %}
+        {% endif %}
+    </select>
+    <button type="submit">Send answer</button>
+</form>

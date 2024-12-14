@@ -11,6 +11,7 @@ from main.models import (
     ContestRole,
     Task,
     UserToContest,
+    TaskOnContest,
 )
 
 
@@ -77,10 +78,11 @@ class UserLoginView(LoginView):
 
 
 class TaskView(TemplateView):
+    template_name = 'tasks/task_detail.html'
 
     def get_task(self, task_id):
         _task = get_object_or_404(Task, pk=task_id)
-        self.template_name = f'tasks/{_task.task_type.tester_name}.html'
+        self.task_template_name = f'tasks/{_task.task_type.tester_name}.html'
 
         return _task
 
@@ -88,7 +90,15 @@ class TaskView(TemplateView):
         task = self.get_task(kwargs['id'])
         answers = Answer.objects.filter(task=task, user=request.user.profile).order_by('-created_at')
 
-        return render(request, self.template_name, {'task': task, 'answers': answers})
+        return render(
+            request,
+            self.template_name,
+            {
+                'task': task,
+                'answers': answers,
+                'task_template':self.task_template_name,
+            }
+        )
 
 
 class TaskListView(TemplateView):
@@ -133,3 +143,46 @@ class ContestRegisterView(TemplateView):
                 )
                 return redirect('contest_detail', kwargs['id'])
         return render(request, self.template_name, {'contest': contest})
+
+
+class ContestDetailView(TemplateView):
+    template_name = 'contests/contest_detail.html'
+
+    def get_contest(self, contest_id):
+        return get_object_or_404(Contest, pk=contest_id)
+
+    def get(self, request, *args, **kwargs):
+        contest = self.get_contest(kwargs['id'])
+        return render(
+            request,
+            self.template_name,
+            {
+                'tasks': contest.tasks,
+                'contest': contest,
+            }
+        )
+
+
+class ContestTaskView(TemplateView):
+    template_name = 'contests/contest_task.html'
+
+    def get(self, request, *args, **kwargs):
+        task_on_contest = get_object_or_404(
+            TaskOnContest,
+            contest__id=kwargs['id'],
+            order=kwargs['task_order']
+        )
+        task = task_on_contest.task
+        contest = task_on_contest.contest
+
+        template_name = f'tasks/{task.task_type.tester_name}.html'
+
+        return render(
+            request,
+            self.template_name,
+            {
+                'task_template': template_name,
+                'task': task,
+                'contest': contest,
+            }
+        )

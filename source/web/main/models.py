@@ -210,6 +210,13 @@ class Contest(BaseModel):
     def __str__(self):
         return f"#{self.id} {self.name}"
 
+    @property
+    def ordered_tasks(self):
+        res = []
+        for item in self.taskoncontest_set.filter(contest=self):
+            res.append((item.order, item.task))
+        return res
+
 
 class TaskOnContest(BaseModel):
     order = models.IntegerField()
