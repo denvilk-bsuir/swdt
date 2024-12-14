@@ -1,0 +1,11 @@
+{% extends "contests/contest_wrapper.html" %}
+{% load i18n %}
+
+{% block contest_content %}
+<div class="container">
+    <div class="row">
+        {% include task_template %}
+    </div>
+    {% include "tasks/theta_solutions.html" %}
+</div>
+{% endblock %}
