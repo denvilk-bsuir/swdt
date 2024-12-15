@@ -6,21 +6,35 @@
 {% endblock %}
 
 {% block content %}
-<h1>{% trans "SysName" %}</h1>
-<hr>
-
 <div class="container">
-    <h3>{% trans "OpenedContests" %}</h3>
-    <div class="row d-flex justify-content-center">
+    <h2>{% trans "OpenedContests" %}</h2>
+    <div class="contest-slider">
         {% if opened_contests %}
             {% for contest in opened_contests %}
-                <div class="card col-md-3 mx-2">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ contest.name }}</h5>
-                        <p class="card-text">Authored by {{ contest.author.fullname }}</p>
-                        {% if not request.user.isAuthenticated %}
-                            <a href="#" class="card-link">Enter</a>
-                        {% endif %}
+                <div class="contest-card">
+                    <span class="contest-name">{{ contest.name }}</span>
+                    <div class="contest-body">
+                        <ul class="contest-info">
+                            <li>
+                                {% trans "Participants" %}: 
+                                <span class="active-text">{{ contest.participant_count }}</span>
+                            </li>
+                            <li>
+                                {% trans "StartTime" %}: 
+                                <span class="active-text">{{ contest.start_time|date:'Y-m-d H:i' }}</span>
+                            </li>
+                            <li>
+                                {% trans "TimeDuration" %}: 
+                                <span class="active-text">{{ contest.duration }}</span>
+                            </li>
+                            <li>
+                                {% trans "Author" %}: 
+                                <span class="active-text">{{ contest.author.user.username }}</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="contest-footer">
+                        <a href="{% url 'contest_detail' contest.pk %}">{% trans "Link" %}</a>
                     </div>
                 </div>
             {% endfor %}

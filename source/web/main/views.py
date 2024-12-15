@@ -23,7 +23,7 @@ class IndexView(TemplateView):
     template_name = 'main/index.html'
 
     def get(self, request):
-        opened_contests = Contest.objects.opened_contests()
+        opened_contests = Contest.objects.opened_contests()[:3]
         return render(request, self.template_name, {
             'opened_contests': opened_contests,
         })

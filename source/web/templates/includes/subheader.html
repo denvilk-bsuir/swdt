@@ -1,0 +1,10 @@
+{% load i18n %}
+<nav class="subheader">
+    <div class="container">
+        <ul>
+            <li><a href="{% url 'index' %}">{% trans 'HomePageName' %}</a></li>
+            <li><a href="{% url 'tasks' %}">{% trans 'Tasks' %}</a></li>
+            <li><a href="{% url 'contests' %}">{% trans 'Contests' %}</a></li>
+        </ul>
+    </div>
+</nav>
