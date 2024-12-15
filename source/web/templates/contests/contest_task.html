@@ -2,10 +2,15 @@
 {% load i18n %}
 
 {% block contest_content %}
-<div class="container">
-    <div class="row">
+<div class="card">
+    <div class="container">
+        <p class="card-title">{{task.name}}</p>
         {% include task_template %}
     </div>
-    {% include "tasks/theta_solutions.html" %}
+</div>
+<div class="card table">
+    <div class="container">
+        {% include "tasks/theta_solutions.html" %}
+    </div>
 </div>
 {% endblock %}

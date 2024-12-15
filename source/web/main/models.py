@@ -217,6 +217,14 @@ class Contest(BaseModel):
             res.append((item.order, item.task))
         return res
 
+    @property
+    def participant_count(self):
+        users_to_contest = UserToContest.objects.filter(
+            contest=self,
+            role=ContestRole.objects.get(name="Participant")
+        )
+        return users_to_contest.count()
+
 
 class TaskOnContest(BaseModel):
     order = models.IntegerField()
