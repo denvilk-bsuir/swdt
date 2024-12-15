@@ -22,6 +22,15 @@
     <main>
         {% block content %}{% endblock %}
     </main>
+    {% if messages %}
+        <ul class="system-messages">
+            {% for message in messages %}
+                <li type="{{message.tags}}">
+                    {{ message }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
     {% include "includes/footer.html" %}
     <script src="{% static 'js/main.js' %}"></script>
     <script
