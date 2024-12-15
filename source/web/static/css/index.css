@@ -6,9 +6,11 @@
     --color-primary: #6b6b6b;
     --color-subheader: #3d3d3d;
     --bg-color: #f1f1f1;
+    --color-light-gray: #E7E7E7;
     --default-radius: 15px;
-    --default-padding: 15px;
+    --default-padding: 25px;
 }
+
 body{
     background: var(--bg-color);
     padding: 0;
@@ -57,7 +59,7 @@ main{
 }
 
 .container{
-    width: 980px;
+    max-width: 980px;
     margin: auto;
     height: 100%;
 }
@@ -213,3 +215,138 @@ footer{
 .contest-info > li{
     margin: 3px 0;
 }
+
+.contest-block > .container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.contest-sidebar{
+    width: 330px;
+}
+
+.contest-content{
+    width: 630px;
+}
+
+.card{
+    background: var(--color-white);
+    border-radius: var(--default-radius);
+    padding: var(--default-padding);
+    margin: 15px 0;
+}
+
+.card-title{
+    font-size: 18pt;
+    margin: 0;
+    font-weight: bold;
+}
+
+.tasks-list ul{
+    list-style-type: none;
+    padding: 0;
+}
+
+table{
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+}
+
+table tr{
+    height: 35px;
+}
+
+table tbody tr:nth-child(2n + 1){
+    background: #fe737333;
+}
+
+table td{
+    border: none;
+    padding: 0;
+    margin: 0;
+    border-spacing: 0;
+}
+
+.submission-verdict{
+    border: 1px solid black;
+    padding: 3px;
+    border-radius: 5px;
+}
+
+.submission-verdict[type='ok']{
+    background: #4c765850;
+    border-color: #295f38;
+}
+
+.submission-verdict:not([type='ok']){
+    background: #85404050;
+    border-color: #632727;
+}
+
+.statement-block > h3{
+    margin: 0;
+    margin-top: 30px;
+    padding: 0;
+}
+
+.statement-block > p{
+    margin: 0;
+    margin-top: 10px;
+}
+
+.code-area{
+    width: calc(100% - 24px);
+    min-height: 300px;
+    max-height: 500px;
+    resize: none;
+    padding: 0;
+    border: 0;
+    border: 2px solid var(--color-light-gray);
+    border-radius: 7px;
+    padding: 10px;
+}
+
+.form-footer{
+    margin-top: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+select{
+    width: 200px;
+    height: 40px;
+    border: none;
+    padding-left: 10px;
+    padding-right: 10px;
+    border: 2px solid var(--color-light-gray);
+    border-radius: 7px;
+    font-size: 12pt;
+}
+
+hr{
+    border-color: var(--color-light-gray);
+    border-style: solid;
+    margin: 0;
+}
+
+.statement{
+    margin-bottom: 25px;
+}
+
+button{
+    border: none;
+    color: white;
+    background: var(--accent-color);
+    height: 40px;
+    width: 120px;
+    border-radius: 10px;
+    font-size: 12pt;
+}
+
+.answer-options{
+    margin: 15px 0;
+}
+
