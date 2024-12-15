@@ -186,3 +186,66 @@ class ContestTaskView(TemplateView):
                 'contest': contest,
             }
         )
+
+
+class ContestStandingsView(TemplateView):
+    template_name = "contests/contest_standings.html"
+
+    def get_contest(self, contest_id):
+        return get_object_or_404(Contest, pk=contest_id)
+
+    def create_code_table(self, contest_id):
+        _contest = self.get_contest(contest_id)
+
+        data = []
+
+        for _user in _contest.users.all():
+
+            user_penalty = 0
+            user_balls = 0
+            tasks_res = []
+            for _task_on_contest in _contest.taskoncontest_set.all().order_by('order'):
+                _task = _task_on_contest.task
+                task_posts = 0
+                _answers = Answer.objects.filter(
+                    user=_user.id,
+                    task=_task.id,
+                    contest=_contest.id
+                ).order_by('created_at')
+                if not _answers:
+                    tasks_res.append('-')
+                else:
+                    for _answer in _answers:
+                        good_end = False
+                        if _answer.verdict:
+                            if _answer.verdict.short_name == "ok":
+                                user_balls += 1
+                                dt = _answer.created_at - _contest.start_time
+                                mins_penalty = dt // 60
+                                user_penalty += task_posts*20 + mins_penalty
+                                task_posts += 1
+                                good_end = True
+                                break
+                            else:
+                                task_posts += 1
+                    if good_end:
+                        tasks_res.append(f'+{task_posts}')
+                    else:
+                        tasks_res.append(f'-{task_posts if task_posts > 0 else ''}')
+            data.append((_user.__str__,user_balls,user_penalty,tasks_res))
+        data.sort(key=lambda x: (-x[1], x[2]))
+        return data
+
+    def get(self, request, *args, **kwargs):
+
+        _contest = get_object_or_404(Contest, pk = kwargs["id"])
+
+        _data = self.create_code_table(kwargs["id"])
+        return render(
+            request,
+            self.template_name,
+            {
+                "results": _data,
+                "contest": _contest
+            }
+        )
