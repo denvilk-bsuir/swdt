@@ -141,7 +141,6 @@ class Answer(BaseModel):
     answer_option = models.ForeignKey(AnswerOption, null=True, blank=True, on_delete=models.SET_NULL)
     answer_code = models.ForeignKey(AnswerCode, null=True, blank=True, on_delete=models.SET_NULL)
     verdict = models.ForeignKey(Verdict, null=True, on_delete=models.SET_NULL)
-    penalty = models.IntegerField()
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
 
     def __str__(self):
