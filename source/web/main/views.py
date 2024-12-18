@@ -4,6 +4,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth import get_user_model
 from django.contrib.auth.views import LoginView
 
+from main.mixins import UserContestMixin
 from main.forms import LoginForm, SignUpForm
 from main.models import (
     Answer,
@@ -146,7 +147,7 @@ class ContestRegisterView(TemplateView):
         return render(request, self.template_name, {'contest': contest})
 
 
-class ContestDetailView(TemplateView):
+class ContestDetailView(UserContestMixin, TemplateView):
     template_name = 'contests/contest_detail.html'
 
     def get_contest(self, contest_id):
@@ -164,7 +165,7 @@ class ContestDetailView(TemplateView):
         )
 
 
-class ContestTaskView(TemplateView):
+class ContestTaskView(UserContestMixin, TemplateView):
     template_name = 'contests/contest_task.html'
 
     def get(self, request, *args, **kwargs):
