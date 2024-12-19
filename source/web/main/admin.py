@@ -142,7 +142,6 @@ class AnswerAdmin(BaseAdmin):
         'id',
         'task',
         'verdict',
-        'penalty'
     ]
 
     actions = [

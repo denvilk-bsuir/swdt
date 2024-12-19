@@ -13,6 +13,7 @@ from main.models import (
     UserToContest,
     TaskOnContest,
 )
+from main.standings import create_standings
 
 
 User = get_user_model()
@@ -184,5 +185,26 @@ class ContestTaskView(TemplateView):
                 'task_template': template_name,
                 'task': task,
                 'contest': contest,
+            }
+        )
+
+
+class ContestStandingsView(TemplateView):
+    template_name = "contests/contest_standings.html"
+
+    def get_contest(self, contest_id):
+        return get_object_or_404(Contest, pk=contest_id)
+
+    def get(self, request, *args, **kwargs):
+
+        _contest = self.get_contest(Contest, pk = kwargs["id"])
+
+        _data = create_standings(kwargs['id'])
+        return render(
+            request,
+            self.template_name,
+            {
+                "results": _data,
+                "contest": _contest
             }
         )

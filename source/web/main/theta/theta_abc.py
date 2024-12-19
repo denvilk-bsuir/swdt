@@ -2,6 +2,8 @@ import sys
 from enum import Enum
 from abc import ABC, abstractmethod
 
+from main.models import Answer
+
 
 class ThetaAbstract(ABC):
     modules: dict[str, 'ThetaAbstract'] = {}
@@ -23,6 +25,18 @@ class ThetaAbstract(ABC):
 
     def __init_subclass__(cls):
         ThetaAbstract.modules[cls.name] = cls
+
+    @classmethod
+    def _set_answer(cls, self, answer: Answer):
+        if isinstance(self, ThetaAbstract):
+            print('[WARN] Method should be used in standing generating', file=sys.stderr)
+        cls.answer_result(self, answer)
+
+    @staticmethod
+    @abstractmethod
+    def answer_result(self, answer):
+        ''' Method for counting result for task '''
+        raise NotImplementedError
 
     @abstractmethod
     def test(self, input:str, expected_output:str):
