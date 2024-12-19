@@ -1,32 +1,36 @@
 {% load i18n %}
-<h3 class="mt-5">{% trans "Submissions" %}</h3>
+<p class="card-title">{% trans "Submissions" %}</p>
 <hr>
-<table class="table table-striped">
+<table>
     <thead>
         <tr>
             <th>#</th>
             <th>Solution</th>
-            <th>Verdict</th>
             <th>Submission time</th>
+            <th>Verdict</th>
             <th>Link</th>
         </tr>
     </thead>
     <tbody>
         {% if not answers %}
-            No answers yet.
+            <tr>
+                <td colspan="5">No answers yet.</td>
+            </tr>
         {% else %}
             {% for answer in answers %}
                 <tr>
                     <td>{{forloop.counter}}</td>
                     <td>{{answer.task.name}}</td>
-
-                    <td>{% if answer.verdict %}
-                            {{answer.verdict.name}}
+                    <td>{{answer.created_at}}</td>
+                    <td>
+                        {% if answer.verdict %}
+                            <span class="submission-verdict" type="{{answer.verdict.short_name}}">
+                                {{answer.verdict.short_name|upper}}
+                            </span>
                         {% else %}
                             Not tested yet.
                         {% endif %}
                     </td>
-                    <td>{{answer.created_at}}</td>
                     <td><a href="">Link</a></td>
                 </tr>
             {% endfor %}

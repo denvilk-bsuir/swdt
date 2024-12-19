@@ -1,28 +1,36 @@
 {% extends "wrapper.html" %}
+{% load i18n %}
 
 {% block title %}
 {% endblock title %}
 
+{% block subheader %}
+    {% include "contests/includes/contest_subheader.html" %}
+{% endblock %}
+
 {% block content %}
-<div class="container">
-    <div class="row">
-        <div class="col-md-8">
+<div class="contest-block">
+    <div class="container">
+        <div class="contest-sidebar">
+            <div class="card tasks-list">
+                <p class="card-title">{% trans "Tasks" %}</p>
+                {% if contest.tasks %}
+                    <ul>
+                        {% for order, task in contest.ordered_tasks %}
+                        <li>
+                            <b>{{order}}.&nbsp;</b>
+                            <a href="{% url 'contest_detail_task' contest.pk order %}">
+                                {{task.name}}
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+        <div class="contest-content">
             {% block contest_content %}
             {% endblock contest_content %}
-        </div>
-        <div class="col-md-4">
-            {% if contest.tasks %}
-                <ul>
-                    <li>
-                        <a href="{% url 'contest_detail' contest.pk %}">{{ contest.name }}</a>
-                    </li>
-                    {% for order, task in contest.ordered_tasks %}
-                    <li>
-                        <a href="{% url 'contest_detail_task' contest.pk order %}">#{{order}} {{task.name}}</a>
-                    </li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
         </div>
     </div>
 </div>

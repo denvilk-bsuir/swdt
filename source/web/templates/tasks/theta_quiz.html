@@ -1,21 +1,28 @@
 
 {% load i18n %}
-<h3>{% trans "TaskStatement" %}</h3>
-<p>{{task.statement}}</p>
-<form method="POST" action="{% url 'theta_quiz' task.id %}">
-    {% csrf_token %}
-    {% for option in task.answer_options.all %}
-        <input
-            class="form-check-input"
-            type="radio"
-            id="{{option.id}}"
-            name="answer"
-            value="{{option.id}}"
-        />
-        <label class="form-check-label" for="{{option.id}}">
-            {{option.text}}
-        </label>
-        <br>
-    {% endfor %}
-    <button type="submit">Send answer</button>
-</form>
+
+<div class="statement">
+    <p>{{task.statement}}</p>
+</div>
+<hr>
+<div class="submission">
+    <form method="POST" action="{% url 'theta_quiz' task.id %}">
+        {% csrf_token %}
+        <div class="answer-options">
+            {% for option in task.answer_options.all %}
+                <input
+                    class="form-check-input"
+                    type="radio"
+                    id="{{option.id}}"
+                    name="answer"
+                    value="{{option.id}}"
+                />
+                <label class="form-check-label" for="{{option.id}}">
+                    {{option.text}}
+                </label>
+                <br>
+            {% endfor %}
+        </div>
+        <button type="submit">Send answer</button>
+    </form>
+</div>

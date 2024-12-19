@@ -3,9 +3,16 @@
 
 {% block content %}
 <div class="container">
-    <div class="row">
-        {% include task_template %}
+    <div class="card">
+        <div class="container">
+            <p class="card-title">{{task.name}}</p>
+            {% include task_template %}
+        </div>
     </div>
-    {% include "tasks/theta_solutions.html" %}
+    <div class="card">
+        <div class="container">
+            {% include "tasks/theta_solutions.html" %}
+        </div>
+    </div>
 </div>
 {% endblock %}
