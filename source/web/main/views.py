@@ -168,6 +168,9 @@ class ContestDetailView(UserContestMixin, TemplateView):
 class ContestTaskView(UserContestMixin, TemplateView):
     template_name = 'contests/contest_task.html'
 
+    def get_contest(self, contest_id):
+        return get_object_or_404(Contest, pk=contest_id)
+
     def get(self, request, *args, **kwargs):
         task_on_contest = get_object_or_404(
             TaskOnContest,
@@ -198,7 +201,7 @@ class ContestStandingsView(TemplateView):
 
     def get(self, request, *args, **kwargs):
 
-        _contest = self.get_contest(Contest, pk = kwargs["id"])
+        _contest = self.get_contest(kwargs["id"])
 
         _data = create_standings(kwargs['id'])
         return render(

@@ -1,4 +1,4 @@
-{% extends "wrapper.html" %}
+{% extends "contests/contest_wrapper.html" %}
 {% load i18n %}
 
 {% block title %}
@@ -6,29 +6,38 @@
 {% endblock %}
 
 {% block content %}
-    <style>
-        td{border:1px solid red}
-    </style>
-    <table>
-        <tr>
-            <th>num</th>
-            <th>name</th>
-            <th>point</th>
-            <th>penalty</th>
-            {% for task in contest.tasks.all %}
-            <th>{{forloop.counter}}</th>
-            {% endfor %}
-        </tr>
-        {% for standing in results %}
-            <tr>
-                <td>{{forloop.counter}}</td>
-                <td>{{ standing.user }}</td>
-                <td>{{ standing.total_points }}</td>
-                <td>{{ standing.penalty }}</td>
-                {% for task in standing.task_results %}
-                    <td>{{ task }}</td>
-                {% endfor %}
-            </tr>
-        {% endfor %}
-    </table>
+<div class="container">
+    <div class="card">
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>{% trans "Username" %}</th>
+                    <th>{% trans "Points" %}</th>
+                    <th>{% trans "Penalty" %}</th>
+                    {% for task in contest.tasks.all %}
+                    <th>{{forloop.counter}}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% if results %}
+                    {% for standing in results %}
+                        <tr>
+                            <td>{{forloop.counter}}</td>
+                            <td>{{ standing.user.user.username }}</td>
+                            <td>{{ standing.total_points }}</td>
+                            <td>{{ standing.penalty }}</td>
+                            {% for task in standing.task_results %}
+                                <td>{{ task }}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    {% trans "Empty" %}
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
 {% endblock %}
