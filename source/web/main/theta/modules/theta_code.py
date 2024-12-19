@@ -6,7 +6,7 @@ import xml.etree.ElementTree as ET
 from enum import Enum
 from pathlib import Path
 from django.conf import settings
-from main.models import Answer, Task
+from main.models import Answer, Task, Verdict
 from main.theta.theta_abc import ThetaAbstract
 
 
@@ -33,6 +33,17 @@ class ThetaCode(ThetaAbstract):
         POINTS = 5
         UNEXPECTED_EOF = 8
         PARTIALLY = 16
+
+    @staticmethod
+    def answer_result(self, answer: Answer):
+        if self.success:
+            return
+        if answer.verdict and answer.verdict == Verdict.objects.get(short_name='ok'):
+            self.success = True
+            penalty_delta = answer.created_at - answer.contest.start_time
+            self.penalty = 20 * self.submissions_count + penalty_delta.seconds // 60
+            return
+        self.submissions_count += 1
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

@@ -19,13 +19,13 @@
             <th>{{forloop.counter}}</th>
             {% endfor %}
         </tr>
-        {% for line in results %}
+        {% for standing in results %}
             <tr>
                 <td>{{forloop.counter}}</td>
-                <td>{{ line.0 }}</td>
-                <td>{{ line.1 }}</td>
-                <td>{{ line.2 }}</td>
-                {% for task in line.3 %}
+                <td>{{ standing.user }}</td>
+                <td>{{ standing.total_points }}</td>
+                <td>{{ standing.penalty }}</td>
+                {% for task in standing.task_results %}
                     <td>{{ task }}</td>
                 {% endfor %}
             </tr>
